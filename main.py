@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import (
     auth, garlic_variety, garlic_variety_category_bullet_details,
     garlic_variety_sub_bullet_details, garlic_variety_images,
-    plant_location, garlic_plant, users, garlic_images_list, base
+    plant_location, garlic_plant, users, garlic_images_list, base, location
 )
 from app.core.config import settings
 
@@ -30,6 +30,7 @@ app.include_router(plant_location.router, prefix="/api/v1/plant-location", tags=
 app.include_router(garlic_plant.router, prefix="/api/v1/garlic-plant", tags=["garlic-plant"])
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(garlic_images_list.router, prefix="/api/v1/garlic-images", tags=["garlic-images"])
+app.include_router(location.router, prefix="/api/v1/location", tags=["location"])
 
 app.include_router(base.router, prefix="/api/v1", tags=["base"])
 

@@ -14,7 +14,7 @@ async def get_plants(session: Session = Depends(get_session)):
 
 @router.post("/", response_model=GarlicPlantRead)
 async def create_plant(plant: GarlicPlantCreate, session: Session = Depends(get_session)):
-    db_plant = GarlicPlant.from_orm(plant)
+    db_plant = GarlicPlant.obj.model_validate(plant)
     session.add(db_plant)
     session.commit()
     session.refresh(db_plant)
@@ -33,7 +33,7 @@ async def update_plant(plant_id: uuid.UUID, plant_update: GarlicPlantUpdate, ses
     if not plant:
         raise HTTPException(status_code=404, detail="Plant not found")
     
-    plant_data = plant_update.dict(exclude_unset=True)
+    plant_data = plant_update.obj.dict(exclude_unset=True)
     for field, value in plant_data.items():
         setattr(plant, field, value)
     

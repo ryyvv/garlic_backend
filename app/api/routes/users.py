@@ -14,11 +14,15 @@ async def get_users(session: Session = Depends(get_session)):
 
 @router.post("/", response_model=UsersRead)
 async def create_user(user: UsersCreate, session: Session = Depends(get_session)):
-    db_user = Users.from_orm(user)
-    session.add(db_user)
-    session.commit()
-    session.refresh(db_user)
-    return db_user
+    try:
+        db_user = Users.model_validate(user)
+        session.add(db_user)
+        session.commit()
+        session.refresh(db_user)
+        return db_user
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/{user_id}", response_model=UsersRead)
 async def get_user(user_id: uuid.UUID, session: Session = Depends(get_session)):
