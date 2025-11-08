@@ -1,4 +1,4 @@
-name: garlicAPI-hub
+name: garlicapi-hub
 channels:
   - conda-forge
   - defaults

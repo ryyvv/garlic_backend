@@ -4,6 +4,9 @@ FastAPI backend for Garlic Plant Management System.
 
 ## Setup
 
+curl -s https://ipinfo.io/ip
+always change ip
+
 1. Install dependencies:
 ```bash
 pip install -r requirements.txt
@@ -28,7 +31,7 @@ uvicorn main:app --reload
 
 ```bash
 docker build -t garlic-api .
-docker run -p 8000:8000 garlic-api
+docker run -p 8000:8001 garlic-api
 ```
 
 ## API Endpoints

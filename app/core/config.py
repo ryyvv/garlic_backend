@@ -1,32 +1,25 @@
-from pydantic_settings import BaseSettings
-from typing import Optional
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import computed_field
+from urllib.parse import quote_plus
 
 class Settings(BaseSettings):
-    postgres_server: str = "localhost"
-    postgres_port: int = 5432
-    postgres_db: str = "garlic_db"
-    postgres_user: str = "postgres"
-    postgres_password: str = "password"
-    secret_key: str = "your-secret-key-here"
-    algorithm: str = "HS256"
-    access_token_expire_minutes: int = 30
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
     
-    # Domain configuration
-    environment: str = "development"  # development or production
-    domain: str = "localhost:8002"
-    production_domain: str = "api.yourdomain.com"
+    # Database
+    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_PORT: int = 5432
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = ""
+    POSTGRES_DB: str = ""
+    POSTGRES_SCHEMA: str = "public"
     
+    @computed_field
     @property
-    def database_url(self) -> str:
-        return f"postgresql://{self.postgres_user}:{self.postgres_password}@{self.postgres_server}:{self.postgres_port}/{self.postgres_db}"
-    
-    @property
-    def base_url(self) -> str:
-        if self.environment == "production":
-            return f"https://{self.production_domain}"
-        return f"http://{self.domain}"
-    
-    class Config:
-        env_file = ".env"
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        password = quote_plus(self.POSTGRES_PASSWORD) if self.POSTGRES_PASSWORD else ""
+        return f"postgresql+psycopg://{self.POSTGRES_USER}:{password}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
 
 settings = Settings()
