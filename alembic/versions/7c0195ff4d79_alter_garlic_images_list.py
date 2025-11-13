@@ -1,20 +1,32 @@
-"""Initial migration
+"""alter garlic images list
 
-Revision ID: 001
-Revises: 
-Create Date: 2024-01-01 00:00:00.000000
+Revision ID: 7c0195ff4d79
+Revises: 001
+Create Date: 2025-11-13 12:54:21.076494
 
 """
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
-revision = '001'
-down_revision = None
+revision = '7c0195ff4d79'
+down_revision = '001'
 branch_labels = None
 depends_on = None
 
+
 def upgrade() -> None:
+    op.drop_table('garlic_variety_images')
+    op.drop_table('garlic_variety_sub_bullet_details')
+    op.drop_table('garlic_variety_category_bullet_details')
+    op.drop_constraint('fk_garlic_images_list_plant', 'garlic_images_list', type_='foreignkey')
+    op.drop_column('garlic_images_list', 'garlic_plant_id')
+    op.drop_table('garlic_plant')
+    op.drop_table('garlic_images_list')
+    op.drop_table('users')
+    op.drop_table('plant_location')
+    op.drop_table('garlic_variety')
+    
     # Create base tables first (no foreign keys)
     op.create_table('garlic_variety',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
@@ -42,6 +54,7 @@ def upgrade() -> None:
 
     op.create_table('users',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column('firebase_uid', sa.String(128), nullable=True, unique=True),
         sa.Column('fullname', sa.String(255), nullable=False),
         sa.Column('birthday', sa.DateTime(), nullable=False),
         sa.Column('email', sa.String(255), nullable=False),
@@ -119,14 +132,4 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id')
     )
 
-def downgrade() -> None:
-    op.drop_table('garlic_variety_images')
-    op.drop_table('garlic_variety_sub_bullet_details')
-    op.drop_table('garlic_variety_category_bullet_details')
-    op.drop_constraint('fk_garlic_images_list_plant', 'garlic_images_list', type_='foreignkey')
-    op.drop_column('garlic_images_list', 'garlic_plant_id')
-    op.drop_table('garlic_plant')
-    op.drop_table('garlic_images_list')
-    op.drop_table('users')
-    op.drop_table('plant_location')
-    op.drop_table('garlic_variety')
+ 

@@ -41,3 +41,9 @@ docker run -p 8000:8001 garlic-api
 - `/api/auth/login` - User authentication
 - `/api/garlic/plants` - Garlic plants CRUD
 - `/api/location/locations` - Location management
+
+
+
+    Variety
+    "id": "647708d5-6e48-4149-b7d4-2dbf6bc4c7f8"
+
