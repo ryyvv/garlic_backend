@@ -71,7 +71,6 @@ def upgrade() -> None:
         sa.Column('garlic_title', sa.String(255), nullable=True),
         sa.Column('variety_id', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('plant_location_id', postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column('image_name', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('status', sa.String(50), nullable=False),
         sa.Column('is_active', sa.Boolean(), nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),

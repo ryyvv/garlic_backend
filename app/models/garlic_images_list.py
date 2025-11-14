@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 
 class GarlicImagesListBase(SQLModel):
-    garlic_plant_id: uuid.UUID
+    garlic_plant_id: Optional[uuid.UUID] = None
     images_name: str
     image_result: str
     status: str
