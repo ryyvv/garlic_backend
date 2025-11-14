@@ -45,8 +45,7 @@ docker run -p 8000:8001 garlic-api
 
 
     Variety
-    "id": "647708d5-6e48-4149-b7d4-2dbf6bc4c7f8"
+    "id": 977684a2-2c39-4b4e-989c-210643e5bab9
 
     location:
-    "id": "5886b0b0-0e88-4c1a-816c-e47aaf3d90f0"
-
+    "id": 5747d911-c532-466a-86f6-ce13bf6224d7

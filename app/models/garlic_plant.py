@@ -9,7 +9,7 @@ class GarlicPlantBase(SQLModel):
     garlic_title: Optional[str] = None
     variety_id: uuid.UUID
     plant_location_id: uuid.UUID
-    image_name: uuid.UUID
+    image_name: Optional[uuid.UUID] = None 
     status: str
     is_active: bool
 
@@ -20,8 +20,8 @@ class GarlicPlant(GarlicPlantBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, index=True)
     garlic_title: Optional[str] = Field(default=None, max_length=255)
     variety_id: uuid.UUID
-    plant_location_id: uuid.UUID
-    image_name: uuid.UUID
+    plant_location_id: uuid.UUID 
+    image_name: Optional[uuid.UUID] = Field(default=None)
     status: str = Field(max_length=50)
     is_active: bool
     created_at: datetime = Field(default_factory=datetime.utcnow)

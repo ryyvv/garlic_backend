@@ -15,6 +15,8 @@ branch_labels = None
 depends_on = None
 
 def upgrade() -> None:
+    op.drop_table('garlic_plant')
+    
     # Create base tables first (no foreign keys)
     op.create_table('garlic_variety',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
