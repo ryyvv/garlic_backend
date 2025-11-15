@@ -6,6 +6,7 @@ from app.core.database import get_session
 from app.models.users import Users, UsersCreate, UsersRead, UsersUpdate
 from app.models.garlic_plant import GarlicPlant, GarlicPlantCreate, GarlicPlantRead, GarlicPlantUpdate
 from app.models.plant_location import PlantLocation, PlantLocationCreate, PlantLocationRead, PlantLocationUpdate
+from app.models.garlic_images_list import GarlicImagesList, GarlicImagesListCreate, GarlicImagesListRead
 
 router = APIRouter()
 
@@ -113,6 +114,18 @@ async def create_plant_location(location: PlantLocationCreate, session: Session 
         session.commit()
         session.refresh(db_location)
         return db_location
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/garlic_images/", response_model=GarlicImagesListRead)
+async def create_garlic_image(garlic_image: GarlicImagesListCreate, session: Session = Depends(get_session)):
+    try:
+        db_garlic_image = GarlicImagesList.model_validate(garlic_image)
+        session.add(db_garlic_image)
+        session.commit()
+        session.refresh(db_garlic_image)
+        return db_garlic_image
     except Exception as e:
         session.rollback()
         raise HTTPException(status_code=400, detail=str(e))
