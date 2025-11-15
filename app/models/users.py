@@ -10,7 +10,7 @@ class UsersBase(SQLModel):
     birthday: datetime
     email: str
     gender: str
-    plant_location_id: uuid.UUID
+    firebase_uid: Optional[str] = Field(max_length=128, unique=True, nullable=True)
 
 class Users(UsersBase, table=True):
     __tablename__ = "users"
@@ -21,7 +21,7 @@ class Users(UsersBase, table=True):
     birthday: datetime
     email: str = Field(max_length=255)
     gender: str = Field(max_length=255)
-    plant_location_id: uuid.UUID
+    firebase_uid: Optional[str] = Field(max_length=128, unique=True, nullable=True)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -36,4 +36,4 @@ class UsersUpdate(SQLModel):
     birthday: Optional[datetime] = None
     email: Optional[str] = None
     gender: Optional[str] = None
-    plant_location_id: Optional[uuid.UUID] = None
+    firebase_uid: Optional[str] = None

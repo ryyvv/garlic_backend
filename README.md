@@ -25,6 +25,9 @@ alembic upgrade head
 4. Run development server:
 ```bash
 uvicorn main:app --reload
+#for local to pc
+uvicorn main:app --reload --host 192.168.8.132 --port 8000
+
 ```
 
 ## Docker

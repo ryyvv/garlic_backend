@@ -4,8 +4,10 @@ from typing import List
 import uuid
 from app.core.database import get_session
 from app.models.users import Users, UsersCreate, UsersRead, UsersUpdate
+from app.models.garlic_plant import GarlicPlant, GarlicPlantCreate, GarlicPlantRead, GarlicPlantUpdate
 
 router = APIRouter()
+
 
 @router.get("/", response_model=List[UsersRead])
 async def get_users(session: Session = Depends(get_session)):
