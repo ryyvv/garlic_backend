@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import uuid
 import os
 
+# user_id != firebase.Uid
 class PlantLocationBase(SQLModel):
     region: str
     region_code: str

@@ -12,13 +12,13 @@ async def get_locations(session: Session = Depends(get_session)):
     locations = session.exec(select(PlantLocation)).all()
     return locations
 
-@router.post("/", response_model=PlantLocationRead)
-async def create_location(location: PlantLocationCreate, session: Session = Depends(get_session)):
-    db_location = PlantLocation.from_orm(location)
-    session.add(db_location)
-    session.commit()
-    session.refresh(db_location)
-    return db_location
+# @router.post("/", response_model=PlantLocationRead)
+# async def create_location(location: PlantLocationCreate, session: Session = Depends(get_session)):
+#     db_location = PlantLocation.from_orm(location)
+#     session.add(db_location)
+#     session.commit()
+#     session.refresh(db_location)
+#     return db_location
 
 @router.get("/{location_id}", response_model=PlantLocationRead)
 async def get_location(location_id: uuid.UUID, session: Session = Depends(get_session)):

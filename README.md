@@ -52,3 +52,16 @@ docker run -p 8000:8001 garlic-api
 
     location:
     "id": 5747d911-c532-466a-86f6-ce13bf6224d7
+
+    user : 4ed21bca-1287-4d96-9e65-9753c2090614
+
+[
+  {
+    "fullname": "Ryan James",
+    "birthday": "2025-11-15T04:48:59.131000",
+    "email": "priany19@gmail.com",
+    "gender": "Male",
+    "firebase_uid": "DDLaq6J2DGR68XLnjrDmj9Bfpkk2",
+    "id": "25248f7c-a75b-4b34-a907-fce2eecc1bfa"
+  }
+]
