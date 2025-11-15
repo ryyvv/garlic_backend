@@ -95,6 +95,28 @@ async def delete_user(user_id: uuid.UUID, session: Session = Depends(get_session
     session.commit()
     return {"message": "User deleted"}
 
+@router.get("/plant_location/{user_id}", response_model=List[PlantLocationRead])
+async def get_plant_locations_by_user(user_id: str, session: Session = Depends(get_session)):
+    try:
+        locations = session.exec(
+            select(PlantLocation).where(PlantLocation.user_id == user_id)
+        ).all()
+        return locations
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/plant_location/", response_model=PlantLocationRead)
+async def create_plant_location(location: PlantLocationCreate, session: Session = Depends(get_session)):
+    try:
+        db_location = PlantLocation.model_validate(location)
+        session.add(db_location)
+        session.commit()
+        session.refresh(db_location)
+        return db_location
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 
 

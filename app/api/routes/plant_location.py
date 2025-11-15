@@ -12,9 +12,9 @@ async def get_locations(session: Session = Depends(get_session)):
     locations = session.exec(select(PlantLocation)).all()
     return locations
 
-# @router.post("/", response_model=PlantLocationRead)
+# @router.post("/data", response_model=PlantLocationRead)
 # async def create_location(location: PlantLocationCreate, session: Session = Depends(get_session)):
-#     db_location = PlantLocation.from_orm(location)
+#     db_location = PlantLocation.model_validate(location)
 #     session.add(db_location)
 #     session.commit()
 #     session.refresh(db_location)
