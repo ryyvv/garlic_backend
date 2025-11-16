@@ -46,8 +46,8 @@ substitutions:
   _POSTGRES_SCHEMA: 'public'
 
 options:
-  pool:
-    name: 'projects/nicer-garlic-app/locations/us-central1/workerPools/YOUR_WORKER_POOL_ID'
+  #pool:
+    #name: 'projects/nicer-garlic-app/locations/us-central1/workerPools/YOUR_WORKER_POOL_ID'
   logging: CLOUD_LOGGING_ONLY
-  machineType: 'E2_HIGHCPU_8' # Note: machineType here will be overridden by the worker pool's configuration if specified there.
+  #machineType: 'E2_HIGHCPU_8' # Note: machineType here will be overridden by the worker pool's configuration if specified there.
 
