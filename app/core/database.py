@@ -16,7 +16,10 @@ connect_args = {"connect_timeout": 300}
 
 # Use IAM token as password when running in Cloud Run
 if os.getenv("K_SERVICE") and settings.USE_IAM_AUTH:
-    connect_args["password"] = get_iam_token
+    try:
+        connect_args["password"] = get_iam_token()
+    except Exception as e:
+        print(f"Failed to get IAM token: {e}")
 
 engine = create_engine(
     str(settings.SQLALCHEMY_DATABASE_URI),

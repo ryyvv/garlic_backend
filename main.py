@@ -98,7 +98,7 @@ async def root():
     return {
         "message": "Garlic API Hub is running",
         "base_url": CLOUD_RUN_URL,
-        "environment": settings.environment,
+        "environment": settings.ENVIRONMENT,
         "docs_url": f"{CLOUD_RUN_URL}/docs"
     }
 
