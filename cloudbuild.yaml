@@ -132,6 +132,7 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--service-account=garlic-api-sa@nicer-garlic-app.iam.gserviceaccount.com'
       - '--add-cloudsql-instances=nicer-garlic-app:us-central1:dev-nicergarlic-pg'
       - '--set-env-vars'
       - 'POSTGRES_HOST=${_POSTGRES_HOST}'

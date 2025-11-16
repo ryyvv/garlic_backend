@@ -1,0 +1,25 @@
+# Run these commands in Google Cloud Shell:
+
+# 1. Create service account
+gcloud iam service-accounts create garlic-api-sa \
+  --display-name="Garlic API Service Account" \
+  --project=nicer-garlic-app
+
+# 2. Grant Cloud SQL IAM permissions
+gcloud projects add-iam-policy-binding nicer-garlic-app \
+  --member="serviceAccount:garlic-api-sa@nicer-garlic-app.iam.gserviceaccount.com" \
+  --role="roles/cloudsql.client"
+
+# 3. Create database user for IAM authentication
+gcloud sql users create garlic-api-sa@nicer-garlic-app.iam \
+  --instance=dev-nicergarlic-pg \
+  --type=cloud_iam_service_account \
+  --project=nicer-garlic-app
+
+# 4. Connect to database and grant permissions:
+gcloud sql connect dev-nicergarlic-pg --user=postgres --project=nicer-garlic-app
+
+# Then run in SQL prompt:
+# GRANT CONNECT ON DATABASE garlicp2 TO "garlic-api-sa@nicer-garlic-app.iam";
+# GRANT USAGE ON SCHEMA public TO "garlic-api-sa@nicer-garlic-app.iam";
+# GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO "garlic-api-sa@nicer-garlic-app.iam";
