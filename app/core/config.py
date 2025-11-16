@@ -54,13 +54,9 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        # Use Cloud SQL proxy socket when running in Cloud Run
-        if os.getenv("K_SERVICE"):
-            host = "/cloudsql/nicer-garlic-app:us-central1:dev-nicergarlic-pg"
-            return f"postgresql+psycopg://{self.POSTGRES_USER}:@{host}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
-        else:
-            # Local development
-            return f"postgresql+psycopg://{self.POSTGRES_USER}:@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
+        # Use public IP with IAM authentication for both Cloud Run and local
+        host = os.getenv("POSTGRES_HOST", self.POSTGRES_SERVER)
+        return f"postgresql+psycopg://{self.POSTGRES_USER}:@{host}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
 
 
     @computed_field
