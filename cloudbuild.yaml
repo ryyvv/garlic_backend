@@ -6,7 +6,8 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA']
   
   - name: 'gcr.io/cloud-builders/gcloud'
-    trypoint: gcloud
+    # REMOVED: trypoint: gcloud
+    entrypoint: 'gcloud' # Added or confirm 'gcloud' as the entrypoint for clarity, though it's often default
     args:
       - 'run'
       - 'deploy'
