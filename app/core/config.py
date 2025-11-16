@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     CLOUD_RUN_URL: str = "https://garlic-api-648624765084.us-central1.run.app"
 
     # Database - IAM Authentication
-    POSTGRES_SERVER: str = "127.0.0.1"
+    POSTGRES_SERVER: str = "34.133.82.99"
     POSTGRES_PORT: int = 5432
     POSTGRES_USER: str = "garlic-api-sa@nicer-garlic-app.iam"
     POSTGRES_DB: str = "garlicp2"
@@ -54,8 +54,13 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        # IAM authentication - no password needed
-        return f"postgresql+psycopg://{self.POSTGRES_USER}:@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
+        # Use Cloud SQL proxy socket when running in Cloud Run
+        if os.getenv("K_SERVICE"):
+            host = "/cloudsql/nicer-garlic-app:us-central1:dev-nicergarlic-pg"
+            return f"postgresql+psycopg://{self.POSTGRES_USER}:@{host}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
+        else:
+            # Local development
+            return f"postgresql+psycopg://{self.POSTGRES_USER}:@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
 
 
     @computed_field
