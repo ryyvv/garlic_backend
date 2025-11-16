@@ -43,20 +43,26 @@ class Settings(BaseSettings):
     # Cloud Run
     CLOUD_RUN_URL: str = "https://garlic-api-648624765084.us-central1.run.app"
 
-    # Database - IAM Authentication
-    POSTGRES_SERVER: str = "127.0.0.1"
+    # Database - Standard Authentication
+    POSTGRES_SERVER: str = "34.133.82.99"
     POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str = "garlic-api-sa@nicer-garlic-app.iam"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "Q9,[Yfh{_l_YC#_6"
     POSTGRES_DB: str = "garlicp2"
     POSTGRES_SCHEMA: str = "public"
-    USE_IAM_AUTH: bool = True
 
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        # Use public IP with IAM authentication for both Cloud Run and local
+        # Use environment variables from Cloud Run deployment
         host = os.getenv("POSTGRES_HOST", self.POSTGRES_SERVER)
-        return f"postgresql+psycopg://{self.POSTGRES_USER}:@{host}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
+        user = os.getenv("POSTGRES_USER", self.POSTGRES_USER)
+        password = os.getenv("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
+        db = os.getenv("POSTGRES_DB", self.POSTGRES_DB)
+        schema = os.getenv("POSTGRES_SCHEMA", self.POSTGRES_SCHEMA)
+        
+        password_encoded = quote_plus(password) if password else ""
+        return f"postgresql+psycopg://{user}:{password_encoded}@{host}:{self.POSTGRES_PORT}/{db}?options=-csearch_path%3D{schema}"
 
 
     @computed_field
