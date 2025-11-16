@@ -1,22 +1,49 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/garlic-api:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA', '.']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/garlic-api:$COMMIT_SHA']
+    args: ['push', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA']
   
   - name: 'gcr.io/cloud-builders/gcloud'
+    trypoint: gcloud
     args:
       - 'run'
       - 'deploy'
       - 'garlic-api'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/garlic-api:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA'
       - '--region'
       - 'us-central1'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'POSTGRES_HOST=${_POSTGRES_HOST}'
+      - '--set-env-vars'
+      - 'POSTGRES_DB=${_POSTGRES_DB}'
+      - '--set-env-vars'
+      - 'POSTGRES_USER=${_POSTGRES_USER}'
+      - '--set-env-vars'
+      - 'POSTGRES_PASSWORD=${_POSTGRES_PASSWORD}'
+      - '--set-env-vars'
+      - 'POSTGRES_SCHEMA=${_POSTGRES_SCHEMA}'
+      - '--memory'
+      - '1Gi'
+      - '--cpu'
+      - '1'
+      - '--max-instances'
+      - '10'
+      - '--timeout'
+      - '300'
+
+substitutions:
+  _POSTGRES_HOST: '34.133.82.99'
+  _POSTGRES_DB: 'garlicp2'
+  _POSTGRES_USER: 'postgres'
+  _POSTGRES_PASSWORD: 'Q9,[Yfh{_l_YC#_6'
+  _POSTGRES_SCHEMA: 'public'
 
 options:
   logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
