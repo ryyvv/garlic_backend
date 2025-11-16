@@ -52,8 +52,8 @@
 #   #machineType: 'E2_HIGHCPU_8' # Note: machineType here will be overridden by the worker pool's configuration if specified there.
 
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA', '.']
   
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/garlic_backend:$COMMIT_SHA']
