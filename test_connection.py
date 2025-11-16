@@ -10,7 +10,7 @@ try:
         port=os.getenv("POSTGRES_PORT"),
         database=os.getenv("POSTGRES_DB"),
         user=os.getenv("POSTGRES_USER"),
-        password=os.getenv("POSTGRES_PASSWORD"),
+        # password not needed for IAM auth
         connect_timeout=10
     )
     print("✅ Database connection successful!")
@@ -21,4 +21,4 @@ except Exception as e:
     print(f"Port: {os.getenv('POSTGRES_PORT')}")
     print(f"Database: {os.getenv('POSTGRES_DB')}")
     print(f"User: {os.getenv('POSTGRES_USER')}")
-    print(f"Password: {'*' * len(os.getenv('POSTGRES_PASSWORD', ''))}")
+    print("Using IAM authentication")
