@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     CLOUD_RUN_URL: str = "https://garlic-api-648624765084.us-central1.run.app"
 
     # Database - Standard Authentication
-    POSTGRES_SERVER: str = "34.133.82.99"
+    POSTGRES_SERVER: str = "34.10.13.136"
     POSTGRES_PORT: int = 5432
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "Q9,[Yfh{_l_YC#_6"
