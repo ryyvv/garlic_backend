@@ -1,0 +1,30 @@
+# Deploy with IAM Authentication (No VPC needed)
+
+# 1. Deploy to Cloud Run with IAM authentication:
+gcloud run deploy garlic-api \
+  --image=gcr.io/nicer-garlic-app/garlic_backend:latest \
+  --region=us-central1 \
+  --platform=managed \
+  --allow-unauthenticated \
+  --add-cloudsql-instances=nicer-garlic-app:us-central1:dev-nicergarlic-pg \
+  --set-env-vars="POSTGRES_HOST=34.133.82.99" \
+  --set-env-vars="POSTGRES_USER=garlic-api-sa@nicer-garlic-app.iam" \
+  --set-env-vars="POSTGRES_DB=garlicp2" \
+  --set-env-vars="POSTGRES_SCHEMA=public" \
+  --set-env-vars="USE_IAM_AUTH=true" \
+  --memory=1Gi \
+  --cpu=1 \
+  --max-instances=10 \
+  --timeout=300 \
+  --project=nicer-garlic-app
+
+# 2. Grant Cloud SQL IAM permissions to service account:
+gcloud projects add-iam-policy-binding nicer-garlic-app \
+  --member="serviceAccount:garlic-api-sa@nicer-garlic-app.iam.gserviceaccount.com" \
+  --role="roles/cloudsql.client"
+
+# 3. Create database user for IAM authentication:
+gcloud sql users create garlic-api-sa@nicer-garlic-app.iam \
+  --instance=dev-nicergarlic-pg \
+  --type=cloud_iam_service_account \
+  --project=nicer-garlic-app
