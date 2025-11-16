@@ -12,7 +12,7 @@ def get_iam_token():
     return credentials.token
 
 # Connection arguments for IAM authentication
-connect_args = {"connect_timeout": 30}
+connect_args = {"connect_timeout": 300}
 
 # Use IAM token as password when running in Cloud Run
 if os.getenv("K_SERVICE") and settings.USE_IAM_AUTH:

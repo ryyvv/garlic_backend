@@ -57,6 +57,7 @@ class Settings(BaseSettings):
         # IAM authentication - no password needed
         return f"postgresql+psycopg://{self.POSTGRES_USER}:@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}?options=-csearch_path%3D{self.POSTGRES_SCHEMA}"
 
+
     @computed_field
     @property
     def CLOUD_RUN_URL_FINAL(self) -> str:
